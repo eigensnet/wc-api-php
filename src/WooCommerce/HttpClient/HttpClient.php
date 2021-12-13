@@ -303,6 +303,8 @@ class HttpClient
         return $this->getResponse();
     }
 
+    public $additionalBasicAuth = null;
+    
     /**
      * Set default cURL settings.
      */
@@ -324,8 +326,12 @@ class HttpClient
         \curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         \curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->request->getRawHeaders());
         \curl_setopt($this->ch, CURLOPT_URL, $this->request->getUrl());
-    }
 
+        if($this->additionalBasicAuth){
+            \curl_setopt($this->ch, CURLOPT_USERPWD, $this->additionalBasicAuth);
+        }
+    }
+    
     /**
      * Look for errors in the request.
      *
